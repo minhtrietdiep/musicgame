@@ -47,9 +47,13 @@ extern "C" void __cxa_pure_virtual() {;}
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\MusicGame.ino"
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\ButtonDebouncer.cpp"
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\ButtonDebouncer.h"
+#include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\LED.cpp"
+#include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\LED.h"
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\MusicFile.cpp"
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\MusicFile.h"
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\MusicListBuilder.cpp"
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\MusicListBuilder.h"
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\Pitches.h"
+#include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\SerialReceiver.cpp"
+#include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\SerialReceiver.h"
 #endif

@@ -33,6 +33,12 @@
     <ClInclude Include="MusicListBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SerialReceiver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LED.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ButtonDebouncer.cpp">
@@ -42,6 +48,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MusicListBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SerialReceiver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LED.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
