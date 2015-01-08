@@ -12,7 +12,8 @@ const int led6 = 6;
 int difference;
 int currentMusicTone;
 int currentUserTone;
-int[] songArray;
+int songArray[20];
+String s;
 
 void setup()
 {
@@ -42,12 +43,12 @@ void loop()
 		s = "";
 	}
 
-	for (int i = 0; i < sizeof(songArray); i++) 
+	for (int i = 0; i < sizeof(songArray); i++)
 	{
-		while (digitalRead(button1) == HIGH) 
+		while (digitalRead(button1) == HIGH)
 		{
 			currentUserTone = map(analogRead(slider1), 0, 1023, 200, 600);
 		}
-		difference += abs(currentUserTone - currentMusicTone)
+		difference += abs(currentUserTone - currentMusicTone);
 	}
 }
