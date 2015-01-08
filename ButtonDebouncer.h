@@ -4,12 +4,17 @@
 class ButtonDebouncer
 {
 private:
-	int *Buttons;
-
+	static const int DEBOUNCE_TIME = 10;
+	byte Button;
+	byte previousState;
+	byte currentState;
+	long lastTime;
+	boolean IsButtonPressed;
 public:
 	ButtonDebouncer();
 	~ButtonDebouncer();
-	ButtonDebouncer(int *buttons);
+	ButtonDebouncer(byte button, byte inputmode);
+	boolean GetButtonState();
 };
 
 #endif
