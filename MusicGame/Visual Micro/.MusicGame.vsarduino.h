@@ -56,4 +56,6 @@ extern "C" void __cxa_pure_virtual() {;}
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\Pitches.h"
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\SerialReceiver.cpp"
 #include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\SerialReceiver.h"
+#include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\Slider.cpp"
+#include "C:\Users\Thomas\Source\Repos\musicgame\MusicGame\Slider.h"
 #endif

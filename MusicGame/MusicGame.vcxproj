@@ -79,6 +79,7 @@
     <ClInclude Include="MusicListBuilder.h" />
     <ClInclude Include="Pitches.h" />
     <ClInclude Include="SerialReceiver.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="Visual Micro\.MusicGame.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +88,7 @@
     <ClCompile Include="MusicFile.cpp" />
     <ClCompile Include="MusicListBuilder.cpp" />
     <ClCompile Include="SerialReceiver.cpp" />
+    <ClCompile Include="Slider.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

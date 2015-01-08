@@ -4,6 +4,7 @@
 #include "Pitches.h"
 #include "SerialReceiver.h"
 #include "LED.h"
+#include "Slider.h"
 
 static const int BUTTON_AMOUNT = 3;
 static const int MAX_MUSIC = 20;
@@ -11,9 +12,10 @@ static const int MAX_MUSIC = 20;
 static const int connectionSpeed = 115200;
 
 static const int buzzerPin = 3;
-static const int slider1 = A2;
-static const int slider2 = A1;
-static const int slider3 = A0;
+
+Slider SliderOne;
+Slider SliderTwo;
+Slider SliderThree;
 
 LED LEDOne;
 LED LEDTwo;
@@ -32,7 +34,6 @@ SerialReceiver Receiver;
 int difference;
 int currentMusicTone;
 int currentUserTone;
-String Buffer;
 
 void setup()
 {
@@ -44,6 +45,10 @@ void setup()
 	Builder.Build(MusicFiles);
 
 	Receiver = SerialReceiver(connectionSpeed);
+
+	SliderOne = Slider(A2);
+	SliderTwo = Slider(A1);
+	SliderThree = Slider(A0);
 
 	LEDOne = LED(5);
 	LEDTwo = LED(6);
