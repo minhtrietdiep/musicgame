@@ -32,6 +32,10 @@ void setup()
 
 void loop()
 {
+	// get button input like this:
+	// e.g. is the first button pressed?
+	// boolean IsButtonOnePressed = buttons[0].GetButtonState();
+
 	// simply builds the string
 	if (Serial.available() > 0) 
 	{
