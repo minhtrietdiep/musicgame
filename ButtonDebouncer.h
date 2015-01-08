@@ -1,5 +1,6 @@
 #ifndef ButtonDebouncer_h
 #define ButtonDebouncer_h
+#include <Arduino.h>
 
 class ButtonDebouncer
 {
@@ -9,12 +10,12 @@ private:
 	byte previousState;
 	byte currentState;
 	long lastTime;
-	boolean IsButtonPressed;
 public:
+	boolean IsPressed;
 	ButtonDebouncer();
 	~ButtonDebouncer();
 	ButtonDebouncer(byte button, byte inputmode);
-	boolean GetButtonState();
+	void GetButtonState();
 };
 
 #endif

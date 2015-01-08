@@ -1,5 +1,4 @@
 #include "ButtonDebouncer.h"
-#include <Arduino.h>
 
 ButtonDebouncer::ButtonDebouncer()
 {
@@ -12,11 +11,11 @@ ButtonDebouncer::ButtonDebouncer(byte button, byte inputmode)
 	previousState = LOW;
 	currentState = LOW;
 	lastTime = 0;
-	IsButtonPressed = false;
+	IsPressed = false;
 	pinMode(button, inputmode);
 }
 
-boolean ButtonDebouncer::GetButtonState()
+void ButtonDebouncer::GetButtonState()
 {
 	if ((lastTime + DEBOUNCE_TIME) > millis())
 	{
@@ -27,7 +26,7 @@ boolean ButtonDebouncer::GetButtonState()
 
 	if (currentState == previousState)
 	{
-		IsButtonPressed = !currentState;
+		IsPressed = !currentState;
 	}
 	previousState = currentState;
 	lastTime = millis();

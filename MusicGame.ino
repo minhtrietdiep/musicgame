@@ -33,8 +33,9 @@ void setup()
 void loop()
 {
 	// get button input like this:
-	// e.g. is the first button pressed?
-	// boolean IsButtonOnePressed = buttons[0].GetButtonState();
+	// first, check the state:
+	// buttons[0].GetButtonState();
+	// IsButtonOnePressed = button[0].IsPressed;
 
 	// simply builds the string
 	if (Serial.available() > 0) 
@@ -52,6 +53,7 @@ void loop()
 		s = "";
 	}
 
+	/* This doesnt work anymore because of the new ButtonDebouncer
 	for (int i = 0; i < sizeof(songArray); i++)
 	{
 		while (digitalRead(button1) == HIGH)
@@ -60,4 +62,5 @@ void loop()
 		}
 		difference += abs(currentUserTone - currentMusicTone);
 	}
+	*/
 }
