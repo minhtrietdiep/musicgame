@@ -73,7 +73,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonDebouncer.h" />
     <ClInclude Include="Visual Micro\.MusicGame.vsarduino.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ButtonDebouncer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
