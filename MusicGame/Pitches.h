@@ -6,7 +6,7 @@
 
 static const int MAX_PITCHES = 89;
 
-static enum Notes : int
+typedef enum
 {
 	NOTE_B0 = 31,
 	NOTE_C1 = 33,
@@ -97,9 +97,9 @@ static enum Notes : int
 	NOTE_CS8 = 4435,
 	NOTE_D8 = 4699,
 	NOTE_DS8 = 4978
-};
+} Notes;
 
-static int Pitches[MAX_PITCHES] =
+static Notes Pitches[MAX_PITCHES] =
 {
 	NOTE_B0,
 	NOTE_C1,
