@@ -1,5 +1,5 @@
 const long connectionSpeed = 115200;
-const int buzzerPin = 3
+const int buzzerPin = 3;
 const int slider1 = A2;
 const int slider2 = A1;
 const int slider3 = A0;
@@ -11,8 +11,9 @@ const int led6 = 6;
 
 int difference;
 int currentMusicTone;
-int currentUserTone
-int[] songArray;
+int currentUserTone;
+int songArray[6];
+String s;
 
 void setup(){
   Serial.begin(connectionSpeed);
@@ -42,6 +43,6 @@ void loop(){
     while (digitalRead(button1) == HIGH) {
       currentUserTone = map(analogRead(slider1), 0, 1023, 200, 600);
     }
-    difference += abs(currentUserTone-currentMusicTone)
+	difference += abs(currentUserTone - currentMusicTone);
   }
 }
