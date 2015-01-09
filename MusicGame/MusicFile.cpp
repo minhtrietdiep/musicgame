@@ -18,7 +18,7 @@ MusicFile::MusicFile(const int *notes, byte buzzerpin)
 	BuzzerPin = buzzerpin;
 }
 
-void MusicFile::Play()
+void MusicFile::Play(void)
 {
 	for (int i = 0; i < MAX_NOTES; i++)
 	{
@@ -26,7 +26,7 @@ void MusicFile::Play()
 	}
 }
 
-String MusicFile::ToString()
+String MusicFile::ToString(void)
 {
 	String output = "MusicFile:";
 

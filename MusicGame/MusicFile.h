@@ -13,8 +13,8 @@ public:
 	MusicFile();
 	~MusicFile();
 	MusicFile(const int *notes, byte buzzerpin);
-	void Play();
-	String ToString();
+	void Play(void);
+	String ToString(void);
 };
 
 #endif

@@ -13,13 +13,13 @@ LED::LED(byte pin)
 	Off();
 }
 
-void LED::On()
+void LED::On(void)
 {
 	digitalWrite(Pin, HIGH);
 	IsOn = true;
 }
 
-void LED::Off()
+void LED::Off(void)
 {
 	digitalWrite(Pin, LOW);
 	IsOn = false;

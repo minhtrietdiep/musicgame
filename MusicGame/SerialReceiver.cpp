@@ -13,7 +13,7 @@ SerialReceiver::SerialReceiver(int speed)
 	Receiving = false;
 }
 
-void SerialReceiver::Receive()
+void SerialReceiver::Receive(void)
 {
 	if (Serial.available() > 0)
 	{

@@ -15,7 +15,7 @@ public:
 	ButtonDebouncer();
 	~ButtonDebouncer();
 	ButtonDebouncer(byte button, byte inputmode);
-	void GetButtonState();
+	void GetButtonState(void);
 };
 
 #endif

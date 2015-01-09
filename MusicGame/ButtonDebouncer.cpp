@@ -15,7 +15,7 @@ ButtonDebouncer::ButtonDebouncer(byte button, byte inputmode)
 	pinMode(button, inputmode);
 }
 
-void ButtonDebouncer::GetButtonState()
+void ButtonDebouncer::GetButtonState(void)
 {
 	if ((lastTime + DEBOUNCE_TIME) > millis())
 	{

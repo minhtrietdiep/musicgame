@@ -12,7 +12,7 @@ public:
 	SerialReceiver();
 	~SerialReceiver();
 	SerialReceiver(int speed);
-	void Receive();
+	void Receive(void);
 };
 
 #endif

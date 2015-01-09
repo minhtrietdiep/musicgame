@@ -21,12 +21,12 @@ void Slider::Map(long fromLow, long fromHigh, long toLow, long toHigh)
 	ToHigh = toHigh;
 }
 
-void Slider::Unmap()
+void Slider::Unmap(void)
 {
 	Mapped = false;
 }
 
-int Slider::GetValue()
+int Slider::GetValue(void)
 {
 	if (Mapped)
 	{

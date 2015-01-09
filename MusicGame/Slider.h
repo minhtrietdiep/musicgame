@@ -16,8 +16,8 @@ public:
 	~Slider();
 	Slider(byte pin);
 	void Map(long fromLow, long fromHigh, long toLow, long toHigh);
-	void Unmap();
-	int GetValue();
+	void Unmap(void);
+	int GetValue(void);
 };
 
 #endif

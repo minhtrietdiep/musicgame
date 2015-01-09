@@ -11,8 +11,8 @@ public:
 	LED();
 	LED(byte pin);
 	~LED();
-	void On();
-	void Off();
+	void On(void);
+	void Off(void);
 	void Fade(int amount, int pause);
 };
 
