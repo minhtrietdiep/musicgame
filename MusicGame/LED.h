@@ -6,7 +6,9 @@ class LED
 {
 private:
 	byte Pin;
+	long LastTime;
 public:
+	byte Brightness;
 	boolean IsOn;
 	LED();
 	LED(byte pin);
