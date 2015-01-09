@@ -46,4 +46,5 @@ String MusicFile::ToString(void)
 
 MusicFile::~MusicFile()
 {
+	delete Notes;
 }
