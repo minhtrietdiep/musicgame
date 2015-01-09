@@ -3,6 +3,7 @@
 ******************************************************/
 #ifndef Pitches_h
 #define Pitches_h
+#include <avr/pgmspace.h>
 
 static const int MAX_PITCHES = 89;
 
@@ -97,9 +98,9 @@ typedef enum
 	NOTE_CS8 = 4435,
 	NOTE_D8 = 4699,
 	NOTE_DS8 = 4978
-} Notes;
+} Notes PROGMEM;
 
-static Notes Pitches[MAX_PITCHES] =
+static Notes Pitches[MAX_PITCHES] PROGMEM =
 {
 	NOTE_B0,
 	NOTE_C1,
