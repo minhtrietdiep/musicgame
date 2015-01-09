@@ -6,9 +6,6 @@
 #include "LED.h"
 #include "Slider.h"
 
-static const int BUTTON_AMOUNT = 3;
-static const int SLIDER_AMOUNT = 3;
-static const int LED_AMOUNT = 2;
 static const int MAX_MUSIC = 20;
 
 static const int connectionSpeed = 115200;
@@ -26,21 +23,21 @@ static const byte SliderThree = A0;
 static const byte LEDOne = 5;
 static const byte LEDTwo = 6;
 
-ButtonDebouncer Buttons[BUTTON_AMOUNT] =
+ButtonDebouncer Buttons[] =
 {
 	ButtonDebouncer(ButtonOne, INPUT_PULLUP),
 	ButtonDebouncer(ButtonTwo, INPUT_PULLUP),
 	ButtonDebouncer(ButtonThree, INPUT_PULLUP)
 };
 
-Slider Sliders[SLIDER_AMOUNT] =
+Slider Sliders[] =
 {
 	Slider(SliderOne),
 	Slider(SliderTwo),
 	Slider(SliderThree)
 };
 
-LED LEDs[LED_AMOUNT] =
+LED LEDs[] =
 {
 	LED(LEDOne),
 	LED(LEDTwo)
@@ -65,13 +62,13 @@ void setup()
 
 	Receiver = SerialReceiver(connectionSpeed);
 
-	for (int i = 0; i < SLIDER_AMOUNT; i++)
+	for (int i = 0; i < (sizeof(Sliders) / sizeof(*Sliders)); i++)
 	{
 		Sliders[i].Map(
 			0,
 			1024,
-			NOTE_B0,
-			NOTE_DS8);
+			Pitches[0],
+			Pitches[MAX_PITCHES]);
 	}
 }
 
