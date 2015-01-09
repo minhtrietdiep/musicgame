@@ -68,7 +68,26 @@ namespace MusicGameServer
             return false;
         }
 
-        private void messageReceiveTimer_Tick(object sender, EventArgs e)
+        private void readMessageTimer_Tick(object sender, EventArgs e)
+        {
+            if (serialPort.IsOpen
+               && serialPort.BytesToRead > 0)
+            {
+                try
+                {
+                    String dataFromSocket = serialPort.ReadExisting();
+                    //DisplayReceivedRawData(dataFromSocket);
+                    messageBuilder.Append(dataFromSocket);
+                    ProcessMessages();
+                }
+                catch (Exception exception) // Not very nice to catch Exception...but for now it's good enough.
+                {
+                    //Debug.WriteLine("Could not read from serial port: " + exception.Message);
+                }
+            }
+        }
+
+        /*private void messageReceiveTimer_Tick(object sender, EventArgs e)
         {
             if (serialPort.IsOpen
                 && serialPort.BytesToRead > 0)
@@ -85,7 +104,7 @@ namespace MusicGameServer
                     //Debug.WriteLine("Could not read from serial port: " + exception.Message);
                 }
             }
-        }
+        }*/
 
         private void ProcessMessages()
         {
@@ -106,6 +125,7 @@ namespace MusicGameServer
                 serialPort.Close();
             }
         }
+
 
     }
 }
