@@ -7,24 +7,43 @@
 #include "Slider.h"
 
 static const int BUTTON_AMOUNT = 3;
+static const int SLIDER_AMOUNT = 3;
+static const int LED_AMOUNT = 2;
 static const int MAX_MUSIC = 20;
 
 static const int connectionSpeed = 115200;
 
-static const int buzzerPin = 3;
+static const byte buzzerPin = 3;
 
-Slider SliderOne;
-Slider SliderTwo;
-Slider SliderThree;
+static const byte ButtonOne = 10;
+static const byte ButtonTwo = 11;
+static const byte ButtonThree = 12;
 
-LED LEDOne;
-LED LEDTwo;
+static const byte SliderOne = A2;
+static const byte SliderTwo = A1;
+static const byte SliderThree = A0;
 
-ButtonDebouncer buttons[BUTTON_AMOUNT] =
+static const byte LEDOne = 5;
+static const byte LEDTwo = 6;
+
+ButtonDebouncer Buttons[BUTTON_AMOUNT] =
 {
-	ButtonDebouncer(10, INPUT_PULLUP),
-	ButtonDebouncer(11, INPUT_PULLUP),
-	ButtonDebouncer(12, INPUT_PULLUP)
+	ButtonDebouncer(ButtonOne, INPUT_PULLUP),
+	ButtonDebouncer(ButtonTwo, INPUT_PULLUP),
+	ButtonDebouncer(ButtonThree, INPUT_PULLUP)
+};
+
+Slider Sliders[SLIDER_AMOUNT] =
+{
+	Slider(SliderOne),
+	Slider(SliderTwo),
+	Slider(SliderThree)
+};
+
+LED LEDs[LED_AMOUNT] =
+{
+	LED(LEDOne),
+	LED(LEDTwo)
 };
 
 MusicFile MusicFiles[MAX_MUSIC];
@@ -46,12 +65,14 @@ void setup()
 
 	Receiver = SerialReceiver(connectionSpeed);
 
-	SliderOne = Slider(A2);
-	SliderTwo = Slider(A1);
-	SliderThree = Slider(A0);
-
-	LEDOne = LED(5);
-	LEDTwo = LED(6);
+	for (int i = 0; i < SLIDER_AMOUNT; i++)
+	{
+		Sliders[i].Map(
+			0,
+			1024,
+			NOTE_B0,
+			NOTE_DS8);
+	}
 }
 
 void loop()
@@ -62,9 +83,9 @@ void loop()
 	// IsButtonOnePressed = button[0].IsPressed;
 
 	// turn LED's on and of with e.g.
-	// LEDOne.On() and LEDTwo.Off()
+	// LEDs[0].On() and LEDs[0].Off()
 	// or
-	// LEDOne.Fade(-5, 30)
+	// LEDs[0].Fade(-5, 30)
 
 	Receiver.Receive();
 
