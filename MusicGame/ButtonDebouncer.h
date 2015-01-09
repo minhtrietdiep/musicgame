@@ -11,7 +11,7 @@ private:
 	byte currentState;
 	long lastTime;
 public:
-	boolean IsPressed;
+	bool IsPressed;
 	ButtonDebouncer();
 	~ButtonDebouncer();
 	ButtonDebouncer(byte button, byte inputmode);

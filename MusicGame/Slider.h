@@ -10,7 +10,7 @@ private:
 	long FromHigh;
 	long ToLow;
 	long ToHigh;
-	boolean Mapped;
+	bool Mapped;
 public:
 	Slider();
 	~Slider();

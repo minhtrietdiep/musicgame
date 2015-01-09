@@ -9,7 +9,7 @@ private:
 	long LastTime;
 public:
 	byte Brightness;
-	boolean IsOn;
+	bool IsOn;
 	LED();
 	LED(byte pin);
 	~LED();

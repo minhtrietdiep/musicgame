@@ -19,7 +19,7 @@ private:
 	void SplitString(String input, String *output, char separator);
 public:
 	String LastMessage;
-	boolean Receiving;
+	bool Receiving;
 	SerialCommunicator();
 	~SerialCommunicator();
 	SerialCommunicator(int speed);
