@@ -75,7 +75,7 @@ Command SerialCommunicator::Parse(String input, String &data)
 		data += substrings[i];
 	}
 
-	delete substrings;
+	delete[] substrings;
 	return returnCommand;
 }
 
@@ -124,7 +124,7 @@ void SerialCommunicator::SplitString(String input, String *output, char separato
 			occurences[i + 1]);
 	}
 
-	delete occurences;
+	delete[] occurences;
 }
 
 SerialCommunicator::~SerialCommunicator()
