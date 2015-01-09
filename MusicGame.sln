@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MusicGame", "MusicGame.vcxproj", "{1F46A391-3C51-40F5-9600-51689EA5C027}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicGameServer", "MusicGameServer\MusicGameServer.csproj", "{546B6CA8-78F2-4285-959F-7021FC59A511}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MusicGame", "MusicGame\MusicGame.vcxproj", "{1F46A391-3C51-40F5-9600-51689EA5C027}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,16 +17,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1F46A391-3C51-40F5-9600-51689EA5C027}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{1F46A391-3C51-40F5-9600-51689EA5C027}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{1F46A391-3C51-40F5-9600-51689EA5C027}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{1F46A391-3C51-40F5-9600-51689EA5C027}.Debug|Win32.ActiveCfg = Debug|Win32
-		{1F46A391-3C51-40F5-9600-51689EA5C027}.Debug|Win32.Build.0 = Debug|Win32
-		{1F46A391-3C51-40F5-9600-51689EA5C027}.Release|Any CPU.ActiveCfg = Release|Win32
-		{1F46A391-3C51-40F5-9600-51689EA5C027}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{1F46A391-3C51-40F5-9600-51689EA5C027}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{1F46A391-3C51-40F5-9600-51689EA5C027}.Release|Win32.ActiveCfg = Release|Win32
-		{1F46A391-3C51-40F5-9600-51689EA5C027}.Release|Win32.Build.0 = Release|Win32
 		{546B6CA8-78F2-4285-959F-7021FC59A511}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{546B6CA8-78F2-4285-959F-7021FC59A511}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{546B6CA8-78F2-4285-959F-7021FC59A511}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -37,6 +27,16 @@ Global
 		{546B6CA8-78F2-4285-959F-7021FC59A511}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{546B6CA8-78F2-4285-959F-7021FC59A511}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{546B6CA8-78F2-4285-959F-7021FC59A511}.Release|Win32.ActiveCfg = Release|Any CPU
+		{1F46A391-3C51-40F5-9600-51689EA5C027}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{1F46A391-3C51-40F5-9600-51689EA5C027}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{1F46A391-3C51-40F5-9600-51689EA5C027}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{1F46A391-3C51-40F5-9600-51689EA5C027}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1F46A391-3C51-40F5-9600-51689EA5C027}.Debug|Win32.Build.0 = Debug|Win32
+		{1F46A391-3C51-40F5-9600-51689EA5C027}.Release|Any CPU.ActiveCfg = Release|Win32
+		{1F46A391-3C51-40F5-9600-51689EA5C027}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{1F46A391-3C51-40F5-9600-51689EA5C027}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{1F46A391-3C51-40F5-9600-51689EA5C027}.Release|Win32.ActiveCfg = Release|Win32
+		{1F46A391-3C51-40F5-9600-51689EA5C027}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
