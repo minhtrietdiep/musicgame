@@ -20,7 +20,8 @@ void MusicListBuilder::Build(MusicFile *target)
 	{
 		for (int n = 0; n < MaxNotes; n++)
 		{
-			Notes[n] = random(0, MAX_PITCHES);
+			int randomNote = random(0, MAX_PITCHES);
+			Notes[n] = Pitches[randomNote];
 		}
 
 		target[i] = MusicFile(Notes, BuzzerPin);
