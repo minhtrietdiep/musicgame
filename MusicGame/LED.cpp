@@ -3,6 +3,8 @@
 
 LED::LED()
 {
+	// on the Arduino Uno there is a
+	// LED on pin 13
 	LED(13);
 }
 
@@ -30,18 +32,24 @@ void LED::Off(void)
 
 void LED::Fade(int amount, int pause)
 {
-	if ((LastTime + pause) < millis())
+	if ((LastTime + pause) > millis())
 	{
-		if (amount > 0 &&
-			(Brightness + amount) < 255)
-		{
-			Brightness += amount;
-		}
-		else if (amount < 0 &&
-			     (Brightness - amount) > 0)
-		{
-			Brightness -= amount;
-		}
+		return;
+	}
+
+	if (amount > 0 &&
+		(Brightness + amount) < 255)
+	{
+		Brightness += amount;
+	}
+	else if (amount < 0 &&
+		     (Brightness - amount) > 0)
+	{
+		Brightness -= amount;
+	}
+	else
+	{
+		return;
 	}
 
 	analogWrite(Pin, Brightness);
