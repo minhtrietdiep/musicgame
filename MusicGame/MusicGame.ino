@@ -2,7 +2,7 @@
 #include "MusicFile.h"
 #include "MusicListBuilder.h"
 #include "Pitches.h"
-#include "SerialReceiver.h"
+#include "SerialCommunicator.h"
 #include "LED.h"
 #include "Slider.h"
 
@@ -45,7 +45,7 @@ LED LEDs[] =
 
 MusicFile MusicFiles[MAX_MUSIC];
 MusicListBuilder Builder;
-SerialReceiver Receiver;
+SerialCommunicator Receiver;
 
 int difference;
 int currentMusicTone;
@@ -60,7 +60,7 @@ void setup()
 
 	Builder.Build(MusicFiles);
 
-	Receiver = SerialReceiver(connectionSpeed);
+	Receiver = SerialCommunicator(connectionSpeed);
 
 	for (int i = 0; i < (sizeof(Sliders) / sizeof(*Sliders)); i++)
 	{
