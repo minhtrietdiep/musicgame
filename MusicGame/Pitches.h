@@ -100,7 +100,7 @@ typedef enum
 	NOTE_DS8 = 4978
 } Notes PROGMEM;
 
-static Notes Pitches[MAX_PITCHES] PROGMEM =
+static const Notes Pitches[MAX_PITCHES] PROGMEM =
 {
 	NOTE_B0,
 	NOTE_C1,
