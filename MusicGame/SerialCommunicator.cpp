@@ -63,9 +63,25 @@ void SerialCommunicator::PrintFreeMemory(int interval)
 		return;
 	}
 
-	SerialCom->print("FMEM");
+	SerialCom->print(">FMEM");
 	SerialCom->print(String(freeMemory()));
-	SerialCom->println();
+	SerialCom->print(';');
 
 	MemoryLastTime = millis();
+}
+
+void SerialCommunicator::WriteButtonState(int identifier, bool status)
+{
+	SerialCom->print(">BTN");
+	SerialCom->print(String(identifier));
+	if (status)
+	{
+		SerialCom->print('1');
+	}
+	else
+	{
+		SerialCom->print('0');
+	}
+
+	SerialCom->print(";");
 }

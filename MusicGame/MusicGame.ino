@@ -63,6 +63,13 @@ void setup()
 
 void loop()
 {
+	int current = 0;
+	Buttons[current].GetButtonState();
+
+	SComm.WriteButtonState(
+		current + 1,
+		Buttons[current].IsPressed);
+
 
 #ifdef DEBUG
 	SComm.PrintFreeMemory(2000);

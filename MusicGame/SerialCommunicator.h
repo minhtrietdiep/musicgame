@@ -27,6 +27,7 @@ public:
 	void Receive(void);
 	Command Parse(void);
 	void PrintFreeMemory(int interval);
+	void WriteButtonState(int identifier, bool status);
 };
 
 #endif
