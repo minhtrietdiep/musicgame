@@ -13,6 +13,17 @@ ButtonDebouncer::ButtonDebouncer(byte button, byte inputmode)
 	lastTime = 0;
 	IsPressed = false;
 	pinMode(button, inputmode);
+
+	if (inputmode == INPUT_PULLUP)
+	{
+		StatePressed = LOW;
+		StateReleased = HIGH;
+	}
+	else
+	{
+		StatePressed = HIGH;
+		StateReleased = LOW;
+	}
 }
 
 void ButtonDebouncer::GetButtonState(void)
@@ -32,12 +43,12 @@ void ButtonDebouncer::GetButtonState(void)
 	if (currentState == previousState)
 	{
 		if (!IsPressed &&
-			currentState == LOW)
+			currentState == StatePressed)
 		{
 			JustPressed = true;
 		}
 		else if (IsPressed &&
-			     currentState == HIGH)
+			     currentState == StateReleased)
 		{
 			JustReleased = true;
 		}

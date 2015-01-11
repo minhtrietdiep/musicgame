@@ -6,6 +6,9 @@ class ButtonDebouncer
 {
 private:
 	static const int DEBOUNCE_TIME = 10;
+
+	byte StatePressed;
+	byte StateReleased;
 	byte Button;
 	byte previousState;
 	byte currentState;
