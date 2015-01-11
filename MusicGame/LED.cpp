@@ -76,7 +76,7 @@ void LED::Toggle(void)
 
 void LED::Toggle(bool state)
 {
-	if (state)
+	if (!state)
 	{
 		On();
 	}
