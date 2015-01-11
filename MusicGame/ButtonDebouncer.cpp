@@ -17,22 +17,32 @@ ButtonDebouncer::ButtonDebouncer(byte button, byte inputmode)
 
 void ButtonDebouncer::GetButtonState(void)
 {
+	JustReleased = false;
+	JustPressed = false;
+
 	if ((lastTime + DEBOUNCE_TIME) > millis())
 	{
 		return;
 	}
 
+	lastTime = millis();
+
 	currentState = digitalRead(Button);
 
 	if (currentState == previousState)
 	{
+		if (!IsPressed &&
+			currentState == LOW)
+		{
+			JustPressed = true;
+		}
+		else if (IsPressed &&
+			     currentState == HIGH)
+		{
+			JustReleased = true;
+		}
+
 		IsPressed = !currentState;
 	}
 	previousState = currentState;
-	lastTime = millis();
-}
-
-ButtonDebouncer::~ButtonDebouncer()
-{
-	// nothing to do here
 }

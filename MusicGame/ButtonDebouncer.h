@@ -12,8 +12,10 @@ private:
 	long lastTime;
 public:
 	bool IsPressed;
+	bool JustPressed;
+	bool JustReleased;
+
 	ButtonDebouncer();
-	~ButtonDebouncer();
 	ButtonDebouncer(byte button, byte inputmode);
 	void GetButtonState(void);
 };
