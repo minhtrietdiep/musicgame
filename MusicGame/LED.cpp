@@ -57,6 +57,25 @@ void LED::Fade(int amount, int pause)
 	LastTime = millis();
 }
 
+void LED::IntervalBlink(int interval)
+{
+	if ((BlinkLastTime + interval) > millis())
+	{
+		return;
+	}
+
+	if (IsOn)
+	{
+		Off();
+	}
+	else
+	{
+		On();
+	}
+
+	BlinkLastTime = millis();
+}
+
 LED::~LED()
 {
 }

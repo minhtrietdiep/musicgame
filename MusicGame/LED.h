@@ -7,6 +7,7 @@ class LED
 private:
 	byte Pin;
 	long LastTime;
+	long BlinkLastTime;
 public:
 	byte Brightness;
 	bool IsOn;
@@ -16,6 +17,7 @@ public:
 	void On(void);
 	void Off(void);
 	void Fade(int amount, int pause);
+	void IntervalBlink(int interval);
 };
 
 #endif
