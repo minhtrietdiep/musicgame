@@ -10,12 +10,50 @@ SerialCommunicator::SerialCommunicator(Stream &serial)
 	MemoryLastTime = millis();
 }
 
+void SerialCommunicator::AddToQueue(char *message)
+{
+	strcat(Queue, message);
+	NewQueue = true;
+}
+
+void SerialCommunicator::BuildMessage(char *output, int outputsize, char *command, char *data)
+{
+	int size = strlen(command) + strlen(data) + 3;
+	if (size < outputsize)
+	{
+		return;
+	}
+
+	output[0] = StartChar;
+	output[1] = '\0';
+
+	strcat(output, command);	
+	strcat(output, data);
+
+	char end[] = { TermChar, '\0' };
+	strcat(output, end);
+}
+
 void SerialCommunicator::Receive(void)
 {
 	while (SerialCom->available())
 	{
 		size_t bytesAvailable = min(SerialCom->available(), MAX_BUFFER_SIZE);
 		SerialCom->readBytes(Buffer, bytesAvailable);
+	}
+}
+
+void SerialCommunicator::Send(void)
+{
+	if (NewQueue)
+	{
+		Serial.print(Queue);
+
+		for (int i = 0; i < strlen(Queue); i++)
+		{
+			Queue[i] = NULL;
+		}
+		NewQueue = false;
 	}
 }
 
@@ -63,25 +101,43 @@ void SerialCommunicator::PrintFreeMemory(int interval)
 		return;
 	}
 
-	SerialCom->print(">FMEM");
-	SerialCom->print(String(freeMemory()));
-	SerialCom->print(';');
+	char cmd[] = "FMEM";
+	char dat[5];
+	snprintf(dat, 5, "%ld", freeMemory());
+	char msg[11];
+	BuildMessage(msg, 11, cmd, dat);
+
+	AddToQueue(msg);
 
 	MemoryLastTime = millis();
 }
 
 void SerialCommunicator::WriteButtonState(int identifier, bool status)
 {
-	SerialCom->print(">BTN");
-	SerialCom->print(String(identifier));
+	if (identifier > 9)
+	{
+		return;
+	}
+
+	char cmd[5];
+	strcpy(cmd, "BTN");
+	char id[2];
+	snprintf(id, 2, "%d", identifier);
+	strcat(cmd, id);
+
+	char dat[2];
 	if (status)
 	{
-		SerialCom->print('1');
+		dat[0] = '1';
 	}
 	else
 	{
-		SerialCom->print('0');
+		dat[0] = '0';
 	}
+	dat[1] = '\0';
 
-	SerialCom->print(";");
+	char msg[16];
+	BuildMessage(msg, 8, cmd, dat);
+
+	AddToQueue(msg);
 }

@@ -63,15 +63,31 @@ void setup()
 
 void loop()
 {
+	//SComm.Receive();
+	
+	// Cool stuff
 	int current = 0;
 	Buttons[current].GetButtonState();
 
-	SComm.WriteButtonState(
-		current + 1,
-		Buttons[current].IsPressed);
-
+	if (Buttons[current].JustPressed)
+	{
+		SComm.WriteButtonState(1, true);
+	}
+	
+	if (Buttons[current].JustReleased)
+	{
+		SComm.WriteButtonState(1, false);
+	}
 
 #ifdef DEBUG
 	SComm.PrintFreeMemory(2000);
+#endif
+
+	SComm.Send();
+
+#ifdef DEBUG
+	// if the LED on D5 toggles once a second,
+	// we know the Arduino hasnt crashed
+	LEDs[0].IntervalToggle(1000);
 #endif
 }
