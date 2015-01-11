@@ -26,10 +26,9 @@ namespace SerialComTest
                 {
                     buffer += port.ReadExisting();
 
-                    int start = buffer.IndexOf('>');
-
-                    if (start != -1)
+                    while (buffer.IndexOf('>') != -1)
                     {
+                        int start = buffer.IndexOf('>');
                         int end = buffer.IndexOf(';');
                         if (end != -1)
                         {
@@ -46,9 +45,21 @@ namespace SerialComTest
                         else if (message.Contains("FMEM"))
                         {
                             Console.SetCursorPosition(2, 0);
-                            Console.Write(message.Substring(4, message.Length - 6));
+                            Console.Write("    ");
+                            Console.SetCursorPosition(2, 0);
+                            Console.Write(message.Substring(5, message.Length - 6));
                         }
                     }
+
+                    /* Check for buffer overflow
+                    Console.SetCursorPosition(0, 1);
+                    for (int i = 0; i < Console.WindowWidth; i++)
+                    {
+                        Console.Write(" ");
+                    }
+                    Console.SetCursorPosition(0, 1);
+                    Console.Write(buffer);
+                     */
                 }
             }
         }
