@@ -2,131 +2,70 @@
 
 SerialCommunicator::SerialCommunicator()
 {
-	SerialCommunicator(9600);
 }
 
-SerialCommunicator::SerialCommunicator(int speed)
+SerialCommunicator::SerialCommunicator(Stream &serial)
 {
-	Serial.begin(speed);
-	Buffer = "";
-	LastMessage = "";
-	Receiving = false;
+	SerialCom = &serial;
+	MemoryLastTime = millis();
 }
 
 void SerialCommunicator::Receive(void)
 {
-	if (Serial.available() > 0)
+	while (SerialCom->available())
 	{
-		Receiving = true;
-		Buffer += Serial.read();
-	}
-
-	if (Buffer.endsWith(";"))
-	{
-		Serial.write("ACK");
-		LastMessage = Buffer;
-		Buffer = "";
-		Receiving = false;
-		Serial.flush();
+		size_t bytesAvailable = min(SerialCom->available(), MAX_BUFFER_SIZE);
+		SerialCom->readBytes(Buffer, bytesAvailable);
 	}
 }
 
-Command SerialCommunicator::Parse(String &data)
+Command SerialCommunicator::Parse(void)
 {
-	return Parse(LastMessage, data);
+	char command[4];
+	for (int i = 0; i < 4; i++)
+	{
+		command[i] = Buffer[i];
+	}
+
+	for (int i = 4; i < MAX_BUFFER_SIZE; i++)
+	{
+		CommandData[i] = Buffer[i];
+	}
+
+	if (strcmp(command, "SLTS"))
+	{
+		return SelectSongCommand;
+	}
+	else if (strcmp(command, "CRTS"))
+	{
+		return CreateSongCommand;
+	}
+	else if (strcmp(command, "RSTC"))
+	{
+		return ResetCommand;
+	}
+	else if (strcmp(command, "STRT"))
+	{
+		return StartCommand;
+	}
+	else if (strcmp(command, "GOVR"))
+	{
+		return GameOverCommand;
+	}
+	
+	return UnknownCommand;
 }
 
-Command SerialCommunicator::Parse(String input, String &data)
+void SerialCommunicator::PrintFreeMemory(int interval)
 {
-	String *substrings;
-	char *commandString;
-	SplitString(input, substrings, ':');
-
-	substrings[0].toCharArray(
-		commandString, 
-		substrings[0].length());
-
-	Command returnCommand = UnknownCommand;
-
-	if (strcmp(commandString, "SelectSong") == 0)
-	{
-		returnCommand = SelectSongCommand;
-	}
-	else if (strcmp(commandString, "CreateSong") == 0)
-	{
-		returnCommand =  CreateSongCommand;
-	}
-	else if (strcmp(commandString, "Reset") == 0)
-	{
-		returnCommand = ResetCommand;
-	}
-	else if (strcmp(commandString, "Start") == 0)
-	{
-		returnCommand = StartCommand;
-	}
-	else if (strcmp(commandString, "GameOver") == 0)
-	{
-		returnCommand = GameOverCommand;
-	}
-
-	int length = sizeof(substrings) / sizeof(*substrings);
-	for (int i = 1; i < length; i++)
-	{
-		data += substrings[i];
-	}
-
-	delete[] substrings;
-	return returnCommand;
-}
-
-void SerialCommunicator::SplitString(String input, String *output, char separator)
-{
-	int length = input.length();
-	int count = 0;
-	for (int i = 0; i < length; i++)
-	{
-		if (input[i] == separator)
-		{
-			count++;
-		}
-	}
-
-	if (count == 0)
+	if ((MemoryLastTime + interval) > millis())
 	{
 		return;
 	}
 
-	int *occurences = new int[count + 1];
+	SerialCom->print("FMEM");
+	SerialCom->print(String(freeMemory()));
+	SerialCom->println();
 
-	for (int i = 0; i < count; i++)
-	{
-		if (i != 0)
-		{
-			occurences[i] = input.indexOf(
-				separator,
-				occurences[i - 1]);
-		}
-		else
-		{
-			occurences[i] = input.indexOf(
-				separator);
-		}
-	}
-
-	occurences[count + 1] = length;
-
-	output = new String[count];
-
-	for (int i = 0; i < count - 1; i++)
-	{
-		output[i] = input.substring(
-			occurences[i], 
-			occurences[i + 1]);
-	}
-
-	delete[] occurences;
-}
-
-SerialCommunicator::~SerialCommunicator()
-{
+	MemoryLastTime = millis();
 }

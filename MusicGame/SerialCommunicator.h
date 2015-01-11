@@ -1,6 +1,7 @@
 #ifndef SerialCommunicator_h
 #define SerialCommunicator_h
 #include <Arduino.h>
+#include "MemoryFree.h"
 
 typedef enum
 {
@@ -15,17 +16,17 @@ typedef enum
 class SerialCommunicator
 {
 private:
-	String Buffer;
-	void SplitString(String input, String *output, char separator);
+	static const int MAX_BUFFER_SIZE = 16;
+	Stream *SerialCom;
+	char Buffer[MAX_BUFFER_SIZE];
+	char CommandData[MAX_BUFFER_SIZE - 4];
+	long MemoryLastTime;
 public:
-	String LastMessage;
-	bool Receiving;
 	SerialCommunicator();
-	~SerialCommunicator();
-	SerialCommunicator(int speed);
+	SerialCommunicator(Stream &serial);
 	void Receive(void);
-	Command Parse(String input, String &data);
-	Command Parse(String &data);
+	Command Parse(void);
+	void PrintFreeMemory(int interval);
 };
 
 #endif
