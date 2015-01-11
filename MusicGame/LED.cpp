@@ -57,23 +57,26 @@ void LED::Fade(int amount, int pause)
 	LastTime = millis();
 }
 
-void LED::IntervalBlink(int interval)
+void LED::IntervalToggle(int interval)
 {
-	if ((BlinkLastTime + interval) > millis())
+	if ((ToggleLastTime + interval) > millis())
 	{
 		return;
 	}
 
-	if (IsOn)
-	{
-		Off();
-	}
-	else
-	{
-		On();
-	}
+	Toggle();
 
-	BlinkLastTime = millis();
+	ToggleLastTime = millis();
+}
+
+void LED::Toggle(void)
+{
+	Toggle(IsOn);
+}
+
+void LED::Toggle(bool state)
+{
+	state ? On() : Off();
 }
 
 LED::~LED()
