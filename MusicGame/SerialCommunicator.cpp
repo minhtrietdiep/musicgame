@@ -1,4 +1,5 @@
 #include "SerialCommunicator.h"
+#include "Utilities.h"
 
 SerialCommunicator::SerialCommunicator()
 {
@@ -96,7 +97,7 @@ Command SerialCommunicator::Parse(void)
 
 void SerialCommunicator::PrintFreeMemory(int interval)
 {
-	if ((MemoryLastTime + interval) > millis())
+	if (!HasIntervalPassed(MemoryLastTime, interval))
 	{
 		return;
 	}
@@ -108,8 +109,6 @@ void SerialCommunicator::PrintFreeMemory(int interval)
 	BuildMessage(msg, 11, cmd, dat);
 
 	AddToQueue(msg);
-
-	MemoryLastTime = millis();
 }
 
 void SerialCommunicator::WriteButtonState(int identifier, bool status)

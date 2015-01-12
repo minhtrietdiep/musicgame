@@ -1,5 +1,5 @@
 #include "LED.h"
-
+#include "Utilities.h"
 
 LED::LED()
 {
@@ -12,7 +12,6 @@ LED::LED(byte pin)
 {
 	Pin = pin;
 	pinMode(pin, OUTPUT);
-	LastTime = millis();
 	Off();
 }
 
@@ -32,7 +31,7 @@ void LED::Off(void)
 
 void LED::Fade(int amount, int pause)
 {
-	if ((LastTime + pause) > millis())
+	if (!HasIntervalPassed(FadeLastTime, pause))
 	{
 		return;
 	}
@@ -53,20 +52,16 @@ void LED::Fade(int amount, int pause)
 	}
 
 	analogWrite(Pin, Brightness);
-
-	LastTime = millis();
 }
 
 void LED::IntervalToggle(int interval)
 {
-	if ((ToggleLastTime + interval) > millis())
+	if (!HasIntervalPassed(ToggleLastTime, interval))
 	{
 		return;
 	}
 
 	Toggle();
-
-	ToggleLastTime = millis();
 }
 
 void LED::Toggle(void)

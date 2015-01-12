@@ -1,4 +1,5 @@
 #include "ButtonDebouncer.h"
+#include "Utilities.h"
 
 ButtonDebouncer::ButtonDebouncer()
 {
@@ -31,12 +32,10 @@ void ButtonDebouncer::GetButtonState(void)
 	JustReleased = false;
 	JustPressed = false;
 
-	if ((lastTime + DEBOUNCE_TIME) > millis())
+	if (!HasIntervalPassed(lastTime, DEBOUNCE_TIME))
 	{
 		return;
 	}
-
-	lastTime = millis();
 
 	currentState = digitalRead(Button);
 
