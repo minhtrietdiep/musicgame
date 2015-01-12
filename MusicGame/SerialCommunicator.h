@@ -25,6 +25,7 @@ private:
 	Stream *SerialCom;
 
 	char Buffer[MAX_BUFFER_SIZE];
+	String BufferString;
 	char CommandData[MAX_BUFFER_SIZE - 4];
 	char Queue[MAX_QUEUE_SIZE];
 	bool NewQueue;
@@ -33,7 +34,7 @@ private:
 
 	void AddToQueue(char *message);
 	void BuildMessage(char *output, int outputsize, char *command, char *data);
-	void DissectMessage(char *input, char *command, char *data);
+	void DissectMessage(String &input, char *command, char *data);
 public:
 	SerialCommunicator();
 	SerialCommunicator(Stream &serial);
