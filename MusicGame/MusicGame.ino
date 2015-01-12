@@ -25,7 +25,6 @@ static const byte LEDTwo = 6;
 
 bool knipper = false;
 
-
 ButtonDebouncer Buttons[] =
 {
 	ButtonDebouncer(ButtonOne, INPUT_PULLUP),
@@ -66,20 +65,6 @@ void setup()
 void loop()
 {
 	SComm.Receive();
-	
-	// Cool stuff
-	int current = 0;
-	Buttons[current].GetButtonState();
-
-	if (Buttons[current].JustPressed)
-	{
-		SComm.WriteButtonState(1, true);
-	}
-	
-	if (Buttons[current].JustReleased)
-	{
-		SComm.WriteButtonState(1, false);
-	}
 
 	if (SComm.Parse() == StartCommand) {
 		knipper = true;
