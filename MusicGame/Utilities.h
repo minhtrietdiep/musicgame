@@ -4,15 +4,14 @@
 
 inline int GetIndex(char *input, char character)
 {
-	const char *indexptr = strchr(input, character);
-	if (indexptr)
+	for (int i = 0; i < strlen(input) - 1; i++)
 	{
-		return indexptr - input;
+		if (input[i] == character)
+		{
+			return i;
+		}
 	}
-	else
-	{
-		return -1;
-	}
+	return -1;
 }
 
 inline bool HasIntervalPassed(long &lasttime, int interval)
