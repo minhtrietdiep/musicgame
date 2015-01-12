@@ -1,9 +1,8 @@
 #ifndef Utilities_h
 #define Utilities_h
-
 #include <Arduino.h>
 
-int GetIndex(char *input, char character)
+inline int GetIndex(char *input, char character)
 {
 	const char *indexptr = strchr(input, character);
 	if (indexptr)
@@ -16,7 +15,7 @@ int GetIndex(char *input, char character)
 	}
 }
 
-bool HasIntervalPassed(long &lasttime, int interval)
+inline bool HasIntervalPassed(long &lasttime, int interval)
 {
 	if ((lasttime + interval) > millis())
 	{
