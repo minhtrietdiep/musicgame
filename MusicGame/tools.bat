@@ -63,12 +63,6 @@ set avrpath=hardware\tools\avr\bin
 set elfpath=%buildpath%\%projectName%.elf
 set hexpath=%buildpath%\%projectName%.hex
 
-echo %arduinoDir%
-echo %buildpath%
-echo %avrpath%
-echo %elfpath%
-echo %hexpath%
-
 set CYGWIN=nodosfilewarning
 
 echo AVR CLI tools
@@ -91,7 +85,7 @@ set message=No extra info
 goto exit
 
 :upload
-cd %arduinoDir%
+pushd %arduinoDir%
 echo.
 echo Uploading
 "%avrpath%\avrdude" -C"%arduinoDir%\hardware\tools\avr\etc\avrdude.conf" -patmega328p -carduino -P\\.\%port% -b115200 -D -Uflash:w:%hexpath%:i
@@ -100,7 +94,7 @@ if errorlevel 1 set message=There was an error with avrdude
 goto exit
 
 :avrsize
-cd %arduinoDir%
+pushd "%arduinoDir%"
 echo.
 echo avr-size:
 "%avrpath%\avr-size.exe" %elfpath%
@@ -119,4 +113,4 @@ goto instantexit
 
 :instantexit
 echo Bye
-cd %projectpath%
+pushd %projectpath%
