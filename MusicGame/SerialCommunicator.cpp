@@ -35,19 +35,24 @@ void SerialCommunicator::BuildMessage(char *output, int outputsize, char *comman
 	strcat(output, end);
 }
 
-void SerialCommunicator::DissectMessage(char *input, char *command, char *data)
+void SerialCommunicator::DissectMessage(String &input, char *command, char *data)
 {
-	int start = GetIndex(input, StartChar);
-	if (start == -1)
+	int start = input.indexOf(StartChar);
+	if (start == -1);
 	{
 		return;
 	}
+	//Serial.println(start);
 
-	int end = GetIndex(input, TermChar);
+	int end = input.indexOf(TermChar);
+	//Serial.println(end);
 	if (end == -1)
 	{
 		return;
 	}
+
+	/*
+	Serial.println("Test");
 
 	for (int i = start + 1; i < start + 5; i++)
 	{
@@ -58,6 +63,9 @@ void SerialCommunicator::DissectMessage(char *input, char *command, char *data)
 	{
 		data[i - start + 5] = input[i];
 	}
+	Serial.println(command);
+	*/
+	
 }
 
 void SerialCommunicator::Receive(void)
@@ -66,16 +74,18 @@ void SerialCommunicator::Receive(void)
 	{
 		size_t bytesAvailable = min(SerialCom->available(), MAX_BUFFER_SIZE);
 		SerialCom->readBytes(Buffer, bytesAvailable);
-		Serial.println(Buffer);
 	}
+
+	Serial.println(Buffer);
+	//BufferString = String(Buffer);
+	//Serial.println(BufferString);
 }
 
 void SerialCommunicator::Send(void)
 {
 	if (NewQueue)
 	{
-		Serial.print(Queue);
-
+		Serial.println(Queue);
 		for (int i = 0; i < strlen(Queue); i++)
 		{
 			Queue[i] = NULL;
@@ -88,8 +98,8 @@ Command SerialCommunicator::Parse(void)
 {
 	char command[7];
 	char data[5];
-	DissectMessage(Buffer, command, data);
-	
+	//DissectMessage(BufferString, command, data);
+
 	/* Arduino Crash because: MAX_BUFFER_SIZE > CommandData length
 	for (int i = 4; i < MAX_BUFFER_SIZE; i++)
 	{

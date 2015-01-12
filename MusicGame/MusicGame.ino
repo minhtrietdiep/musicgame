@@ -92,7 +92,7 @@ void loop()
 	}
 
 #ifdef DEBUG
-	SComm.PrintFreeMemory(2000);
+	// SComm.PrintFreeMemory(2000);
 #endif
 
 	SComm.Send();
