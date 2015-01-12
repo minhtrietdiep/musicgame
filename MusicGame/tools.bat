@@ -65,6 +65,7 @@ set hexpath=%buildpath%\%projectName%.hex
 
 set CYGWIN=nodosfilewarning
 
+cls
 echo AVR CLI tools
 echo Utility script to upload and check Arduino sketches built with Visual Micro
 echo Arduino with ATmega328 on port %port%
