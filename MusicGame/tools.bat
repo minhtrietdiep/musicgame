@@ -63,9 +63,14 @@ set avrpath=hardware\tools\avr\bin
 set elfpath=%buildpath%\%projectName%.elf
 set hexpath=%buildpath%\%projectName%.hex
 
+echo %arduinoDir%
+echo %buildpath%
+echo %avrpath%
+echo %elfpath%
+echo %hexpath%
+
 set CYGWIN=nodosfilewarning
 
-cls
 echo AVR CLI tools
 echo Utility script to upload and check Arduino sketches built with Visual Micro
 echo Arduino with ATmega328 on port %port%
