@@ -6,7 +6,7 @@ class LED
 {
 private:
 	byte Pin;
-	long LastTime;
+	long FadeLastTime;
 	long ToggleLastTime;
 public:
 	byte Brightness;
