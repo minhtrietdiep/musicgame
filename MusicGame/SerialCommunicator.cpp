@@ -35,12 +35,38 @@ void SerialCommunicator::BuildMessage(char *output, int outputsize, char *comman
 	strcat(output, end);
 }
 
+void SerialCommunicator::DissectMessage(char *input, char *command, char *data)
+{
+	int start = GetIndex(input, StartChar);
+	if (start == -1)
+	{
+		return;
+	}
+
+	int end = GetIndex(input, TermChar);
+	if (end == -1)
+	{
+		return;
+	}
+
+	for (int i = start + 1; i < start + 5; i++)
+	{
+		command[i - ( start + 1 )] = input[i];
+	}
+
+	for (int i = start + 4; i < end; i++)
+	{
+		data[i - start + 5] = input[i];
+	}
+}
+
 void SerialCommunicator::Receive(void)
 {
 	while (SerialCom->available())
 	{
 		size_t bytesAvailable = min(SerialCom->available(), MAX_BUFFER_SIZE);
 		SerialCom->readBytes(Buffer, bytesAvailable);
+		Serial.println(Buffer);
 	}
 }
 
@@ -60,16 +86,15 @@ void SerialCommunicator::Send(void)
 
 Command SerialCommunicator::Parse(void)
 {
-	char command[4];
-	for (int i = 0; i < 4; i++)
-	{
-		command[i] = Buffer[i];
-	}
-
+	char command[7];
+	char data[5];
+	DissectMessage(Buffer, command, data);
+	
+	/* Arduino Crash because: MAX_BUFFER_SIZE > CommandData length
 	for (int i = 4; i < MAX_BUFFER_SIZE; i++)
 	{
 		CommandData[i] = Buffer[i];
-	}
+	}*/
 
 	if (strcmp(command, "SLTS"))
 	{
@@ -83,7 +108,7 @@ Command SerialCommunicator::Parse(void)
 	{
 		return ResetCommand;
 	}
-	else if (strcmp(command, "STRT"))
+	else if (strcmp(command, ">STRT;"))
 	{
 		return StartCommand;
 	}

@@ -23,6 +23,8 @@ static const byte SliderThree = A0;
 static const byte LEDOne = 5;
 static const byte LEDTwo = 6;
 
+bool knipper = false;
+
 
 ButtonDebouncer Buttons[] =
 {
@@ -63,7 +65,7 @@ void setup()
 
 void loop()
 {
-	//SComm.Receive();
+	SComm.Receive();
 	
 	// Cool stuff
 	int current = 0;
@@ -77,6 +79,16 @@ void loop()
 	if (Buttons[current].JustReleased)
 	{
 		SComm.WriteButtonState(1, false);
+	}
+
+	if (SComm.Parse() == StartCommand) {
+		knipper = true;
+		SComm.WriteButtonState(1, true);
+	}
+
+	if (knipper) 
+	{
+		LEDs[1].IntervalToggle(50);
 	}
 
 #ifdef DEBUG

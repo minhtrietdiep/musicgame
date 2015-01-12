@@ -2,6 +2,7 @@
 #define SerialCommunicator_h
 #include <Arduino.h>
 #include "MemoryFree.h"
+#include "Utilities.h"
 
 typedef enum
 {
@@ -32,6 +33,7 @@ private:
 
 	void AddToQueue(char *message);
 	void BuildMessage(char *output, int outputsize, char *command, char *data);
+	void DissectMessage(char *input, char *command, char *data);
 public:
 	SerialCommunicator();
 	SerialCommunicator(Stream &serial);

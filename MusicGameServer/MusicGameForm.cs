@@ -13,7 +13,7 @@ namespace MusicGameServer
 {
     public partial class MusicGameForm : Form
     {
-        private const int connectionSpeed = 115200;
+        private const int connectionSpeed = 38400;
         private const String messageBeginMarker = ">";
         private const String messageEndMarker = ";";
         private SerialPort serialPort;
@@ -27,7 +27,7 @@ namespace MusicGameServer
             serialPort = new SerialPort();
             serialPort.BaudRate = connectionSpeed;
             messageBuilder = new MessageBuilder(messageBeginMarker, messageEndMarker);
-            //UpdateUserInterface();
+            UpdateInterface();
         }
 
         private void FillSerialPortSelectionBoxWithAvailablePorts()
@@ -35,18 +35,26 @@ namespace MusicGameServer
             String[] ports = SerialPort.GetPortNames();
             Array.Sort(ports);
 
-            //serialPortSelectionBox.Items.Clear();
-            /*foreach (String port in ports)
+            comboBoxPorts.Items.Clear();
+            foreach (String port in ports)
             {
-                serialPortSelectionBox.Items.Add(port);
-            }*/
+                comboBoxPorts.Items.Add(port);
+            }
         }
 
         private void MessageReceived(String message)
         {
-            if ((message.Contains(">BTN:")) && message.EndsWith(";"))
+            if ((message.Contains(">BTN")) && message.EndsWith(";"))
             {
-                MessageBox.Show("Je hebt knop " + message.Substring(message.IndexOf(":") + 1, message.IndexOf(";") - (message.IndexOf(":") + 1)) + " ingedrukt.");
+                if ((message.Substring(message.IndexOf("N") + 1, message.IndexOf(";") - (message.IndexOf("N") + 1))) == "10")
+                {
+                    lblStatus.Text = "depressed";
+                }
+                else
+                {
+                    lblStatus.Text = "pressed";
+                }
+                //MessageBox.Show("Je hebt knop " + message.Substring(message.IndexOf("N") + 1, message.IndexOf(";") - (message.IndexOf("N") + 1)) + " ingedrukt.");
             }
         }
 
@@ -111,10 +119,15 @@ namespace MusicGameServer
             String message = messageBuilder.FindAndRemoveNextMessage();
             while (message != null)
             {
-                //DisplayReceivedMessage(message);
+                DisplayReceivedMessage(message);
                 MessageReceived(message);
                 message = messageBuilder.FindAndRemoveNextMessage();
             }
+        }
+
+        private void DisplayReceivedMessage(String message)
+        {
+            tbCurrentMsg.Text = message;
         }
 
         private void MusicGameForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -126,6 +139,89 @@ namespace MusicGameServer
             }
         }
 
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            SendMessage(messageBeginMarker + "STRT" + messageEndMarker);
+        }
 
+        private void btnGameOver_Click(object sender, EventArgs e)
+        {
+            SendMessage(messageBeginMarker + "GOVR" + messageEndMarker);
+        }
+
+        private void btnCreateSong_Click(object sender, EventArgs e)
+        {
+            SendMessage(messageBeginMarker + "CRTS" + messageEndMarker);
+        }
+
+        private void setSelectSong_Click(object sender, EventArgs e)
+        {
+            SendMessage(messageBeginMarker + "SLTS" + messageEndMarker);
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            SendMessage(messageBeginMarker + "RSTC" + messageEndMarker);
+        }
+
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            if (serialPort.IsOpen)
+            {
+                readMessageTimer.Enabled = false;
+                serialPort.Close();
+            }
+            else
+            {
+                String port = comboBoxPorts.Text;
+                try
+                {
+                    serialPort.PortName = port;
+                    serialPort.Open();
+                    if (serialPort.IsOpen)
+                    {
+                        //ClearAllMessageData();
+                        serialPort.DiscardInBuffer();
+                        serialPort.DiscardOutBuffer();
+                    }
+                    readMessageTimer.Enabled = true;
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Could not connect to the given serial port: " + exception.Message);
+                }
+            }
+            UpdateInterface();
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            FillSerialPortSelectionBoxWithAvailablePorts();
+            UpdateInterface();
+        }
+
+        private void UpdateInterface()
+        {
+            bool isConnected = serialPort.IsOpen;
+            if (isConnected)
+            {
+                btnConnect.Text = "Disconnect";
+            }
+            else
+            {
+                btnConnect.Text = "Connect";
+            }
+
+            btnRefresh.Enabled = !isConnected;
+            comboBoxPorts.Enabled = !isConnected;
+
+            btnStart.Enabled = isConnected;
+            btnReset.Enabled = isConnected;
+            btnGameOver.Enabled = isConnected;
+            btnStart.Enabled = isConnected;
+            btnCreateSong.Enabled = isConnected;
+            setSelectSong.Enabled = isConnected;
+            comboBoxMusic.Enabled = isConnected;
+        }
     }
 }
