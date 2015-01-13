@@ -22,7 +22,7 @@ void MusicFile::Play(void)
 {
 	for (int i = 0; i < MAX_NOTES; i++)
 	{
-		tone(BuzzerPin, Notes[i], 1500);
+		NewTone(BuzzerPin, Notes[i], 1500);
 	}
 }
 

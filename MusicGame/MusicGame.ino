@@ -26,21 +26,21 @@ static const byte SliderThree = A0;
 static const byte LEDOne = 5;
 static const byte LEDTwo = 6;
 
-static const byte LATCH = 7;
-static const byte CLOCK = 8;
-static const byte DATA = 4;
+#define LATCH 7
+#define CLOCK 8
+#define DATA 4
 
-static const byte ledCharSet[16] PROGMEM = {
+static const byte ledCharSet[16] = {
 	B00111111, B00000110, B01011011,
-	B01001111, B01100110, B01101101, 
-	B01111101, B00000111, B01111111, 
+	B01001111, B01100110, B01101101,
+	B01111101, B00000111, B01111111,
 	B01101111, B01110111, B01111100,
 	B01011000, B01011110, B01111001,
 	B01110001
 };
-static const byte ledIdleSet[8] PROGMEM = {
+static const byte ledIdleSet[8] = {
 	B00000001, B00000010, B01000000,
-	B00010000, B00001000, B00000100, 
+	B00010000, B00001000, B00000100,
 	B01000000, B00100000
 };
 
@@ -76,7 +76,7 @@ int counter = 0;
 bool play = false;
 
 //int melody[] = { 262, 196, 196, 220, 196, 0, 247, 262 };
-int melody[] = { 200, 400, 800 };
+int melody[3]; // = { 200, 400, 800 };
 
 MusicFile MusicFiles[MAX_MUSIC];
 MusicListBuilder Builder;
@@ -100,7 +100,7 @@ void setup()
 
 	for (int i = 0; i < (sizeof(Sliders) / sizeof(*Sliders)); i++)
 	{
-		Sliders[i].Map(0, 1024, 44, 5000);
+		Sliders[i].Map(0, 1023, NOTE_B0, NOTE_DS8);
 	}
 
 	pinMode(LATCH, OUTPUT);
@@ -110,6 +110,11 @@ void setup()
 
 void loop()
 {
+	SComm.Receive();
+
+	int CurrentCommand;
+	CurrentCommand = SComm.GetLastCommand();
+
 	// Update button and slider states every loop
 	for (int i = 0; i< (sizeof(Buttons) / sizeof(*Buttons)); i++)
 	{
@@ -118,6 +123,15 @@ void loop()
 	for (int i = 0; i < (sizeof(Sliders) / sizeof(*Sliders)); i++) 
 	{
 		SliderValues[i] = Sliders[i].GetValue();
+	}
+
+	if (ToneCounter >= (sizeof(melody) / sizeof(*melody)))
+	{
+		//SComm.SendGameOver(Score);
+		Serial.print(">GOVR");
+		Serial.print(Score);
+		Serial.print(";");
+		GameState = 2;
 	}
 
 	if (GameState == 0)
@@ -135,27 +149,42 @@ void loop()
 		}
 	}
 
-	if (Buttons[1].JustPressed &&
-		GameState == 0)
+	if (GameState == 2)
 	{
-		StartGame();
-		PlaySongTemp();
+		Set7Seg(0, counter);
+		if (HasIntervalPassed(lastTime, 100))
+		{
+			counter++;
+		}
+		if (counter >= 16)
+		{
+			counter = 0;
+		}
+
+		ToneCounter = 0;
 	}
 
-	if (Buttons[1].JustPressed &&
+	if (Buttons[1].JustPressed && GameState == 0 ||
+		(CurrentCommand == StartCommand && GameState == 0))
+	{
+		StartGame();
+		PlaySong();
+	}
+
+	if (Buttons[2].JustPressed &&
 		GameState == 2)
 	{
 		ResetGame();
 	}
 
-	if (Buttons[2].JustPressed) 
-	{
-		SComm.RequestReset();
-	}
-
-	if (SComm.Parse() == ResetCommand) 
+	if (CurrentCommand == ResetCommand)
 	{
 		ResetGame();
+	}
+
+	if (Buttons[2].JustPressed && GameState == 1) 
+	{
+		SComm.RequestReset();
 	}
 
 	if (Buttons[0].IsPressed &&
@@ -177,11 +206,8 @@ void loop()
 		Set7Seg(0, Score);
 		ToneCounter++;
 	}
-	if (ToneCounter >= (sizeof(melody) / sizeof(*melody)))
-	{
-		GameState = 2;
-		SComm.SendGameOver(Score);
-	}
+
+	SComm.Send();
 	
 #	ifdef DEBUG
 	// SComm.PrintFreeMemory(2000);
@@ -203,8 +229,11 @@ void ResetGame()
 void StartGame()
 {
 	Set7Seg(0, Score);
-	//PlaySong();
 	GameState = 1;
+	for (int i = 0; i <= 2; i++)
+	{
+		melody[i] = random(NOTE_B0, NOTE_DS8);
+	}
 }
 
 void PlaySongTemp()
@@ -216,23 +245,32 @@ void PlaySongTemp()
 	}
 }
 
-void PlaySong(MusicFile &target)
+void PlaySong()
 {
-	CurrentMusicFile = &target;
-	CurrentMusicFile->Play();
+	for (int i = 0; i < (sizeof(melody) / sizeof(*melody)); i++)
+	{
+		NewTone(buzzerPin, melody[i], 300);
+		delay(400);
+	}
 }
 
 void CalculateScore(int slider, int CurrentNote)
 {
-	if (CurrentNote > abs(slider - CurrentNote - 500) && CurrentNote < abs(slider - CurrentNote + 500))
+
+	if (CurrentNote > abs(slider - CurrentNote - 2000) && CurrentNote < abs(slider - CurrentNote + 2000))
 	{
 		Score++;
 	}
+
+	if (CurrentNote > abs(slider - CurrentNote - 1000) && CurrentNote < abs(slider - CurrentNote + 1000))
+	{
+		Score += 2;
+	}
 	
-	/*if (CurrentNote > abs(slider - CurrentNote - 500) && CurrentNote < abs(slider - CurrentNote + 500))
+	if (CurrentNote > abs(slider - CurrentNote - 100) && CurrentNote < abs(slider - CurrentNote + 100))
 	{
 		Score += 3;
-	}*/
+	}
 }
 
 void Set7Seg(int mode, int score)

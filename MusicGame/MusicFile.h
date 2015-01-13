@@ -1,6 +1,7 @@
 #ifndef MusicFile_h
 #define MusicFile_h
 #include <Arduino.h>
+#include "NewTone.h"
 
 static const int MAX_NOTES = 3;
 

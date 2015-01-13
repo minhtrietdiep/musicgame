@@ -30,12 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.readMessageTimer = new System.Windows.Forms.Timer(this.components);
-            this.comboBoxMusic = new System.Windows.Forms.ComboBox();
-            this.setSelectSong = new System.Windows.Forms.Button();
-            this.btnCreateSong = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
-            this.btnGameOver = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.comboBoxPorts = new System.Windows.Forms.ComboBox();
             this.btnConnect = new System.Windows.Forms.Button();
@@ -49,37 +45,9 @@
             // 
             this.readMessageTimer.Tick += new System.EventHandler(this.readMessageTimer_Tick);
             // 
-            // comboBoxMusic
-            // 
-            this.comboBoxMusic.FormattingEnabled = true;
-            this.comboBoxMusic.Location = new System.Drawing.Point(11, 12);
-            this.comboBoxMusic.Name = "comboBoxMusic";
-            this.comboBoxMusic.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxMusic.TabIndex = 0;
-            // 
-            // setSelectSong
-            // 
-            this.setSelectSong.Location = new System.Drawing.Point(11, 39);
-            this.setSelectSong.Name = "setSelectSong";
-            this.setSelectSong.Size = new System.Drawing.Size(75, 23);
-            this.setSelectSong.TabIndex = 1;
-            this.setSelectSong.Text = "Select Song";
-            this.setSelectSong.UseVisualStyleBackColor = true;
-            this.setSelectSong.Click += new System.EventHandler(this.setSelectSong_Click);
-            // 
-            // btnCreateSong
-            // 
-            this.btnCreateSong.Location = new System.Drawing.Point(92, 39);
-            this.btnCreateSong.Name = "btnCreateSong";
-            this.btnCreateSong.Size = new System.Drawing.Size(75, 23);
-            this.btnCreateSong.TabIndex = 2;
-            this.btnCreateSong.Text = "Create Song";
-            this.btnCreateSong.UseVisualStyleBackColor = true;
-            this.btnCreateSong.Click += new System.EventHandler(this.btnCreateSong_Click);
-            // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(92, 68);
+            this.btnReset.Location = new System.Drawing.Point(92, 12);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 3;
@@ -89,23 +57,13 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(11, 68);
+            this.btnStart.Location = new System.Drawing.Point(11, 12);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 4;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // btnGameOver
-            // 
-            this.btnGameOver.Location = new System.Drawing.Point(11, 97);
-            this.btnGameOver.Name = "btnGameOver";
-            this.btnGameOver.Size = new System.Drawing.Size(75, 23);
-            this.btnGameOver.TabIndex = 5;
-            this.btnGameOver.Text = "Game Over";
-            this.btnGameOver.UseVisualStyleBackColor = true;
-            this.btnGameOver.Click += new System.EventHandler(this.btnGameOver_Click);
             // 
             // comboBoxPorts
             // 
@@ -137,7 +95,7 @@
             // 
             // tbCurrentMsg
             // 
-            this.tbCurrentMsg.Location = new System.Drawing.Point(390, 199);
+            this.tbCurrentMsg.Location = new System.Drawing.Point(12, 117);
             this.tbCurrentMsg.Name = "tbCurrentMsg";
             this.tbCurrentMsg.Size = new System.Drawing.Size(100, 20);
             this.tbCurrentMsg.TabIndex = 9;
@@ -145,7 +103,7 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(387, 222);
+            this.lblStatus.Location = new System.Drawing.Point(8, 140);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(55, 13);
             this.lblStatus.TabIndex = 10;
@@ -154,9 +112,10 @@
             // lblScore
             // 
             this.lblScore.AutoSize = true;
-            this.lblScore.Location = new System.Drawing.Point(13, 127);
+            this.lblScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblScore.Location = new System.Drawing.Point(12, 62);
             this.lblScore.Name = "lblScore";
-            this.lblScore.Size = new System.Drawing.Size(41, 13);
+            this.lblScore.Size = new System.Drawing.Size(87, 25);
             this.lblScore.TabIndex = 11;
             this.lblScore.Text = "Score: ";
             // 
@@ -165,19 +124,15 @@
             this.AcceptButton = this.btnConnect;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 261);
+            this.ClientSize = new System.Drawing.Size(183, 261);
             this.Controls.Add(this.lblScore);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.tbCurrentMsg);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.comboBoxPorts);
-            this.Controls.Add(this.btnGameOver);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnReset);
-            this.Controls.Add(this.btnCreateSong);
-            this.Controls.Add(this.setSelectSong);
-            this.Controls.Add(this.comboBoxMusic);
             this.Name = "MusicGameForm";
             this.Text = "Music Game";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MusicGameForm_FormClosed);
@@ -189,12 +144,8 @@
         #endregion
 
         private System.Windows.Forms.Timer readMessageTimer;
-        private System.Windows.Forms.ComboBox comboBoxMusic;
-        private System.Windows.Forms.Button setSelectSong;
-        private System.Windows.Forms.Button btnCreateSong;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Button btnGameOver;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ComboBox comboBoxPorts;
         private System.Windows.Forms.Button btnConnect;

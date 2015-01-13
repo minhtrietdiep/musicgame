@@ -59,13 +59,30 @@ namespace MusicGameServer
                 }
                 //MessageBox.Show("Je hebt knop " + message.Substring(message.IndexOf("N") + 1, message.IndexOf(";") - (message.IndexOf("N") + 1)) + " ingedrukt.");
             }*/
-            if ((message.Contains(">SCOR")) && message.EndsWith(";"))
+            if ((message.Contains(">GOVR")) && message.EndsWith(";"))
             {
                 subbegin = message.IndexOf(">") + 5;
                 subend = message.IndexOf(";");
                 substring = message.Substring(subbegin, subend - subbegin);
                 lblScore.Text = "Score: " + substring + "!";
             }
+
+            if ((message.Contains(">RSTC")) && message.EndsWith(";"))
+            {
+                subbegin = message.IndexOf(">") + 5;
+                subend = message.IndexOf(";");
+                substring = message.Substring(subbegin, subend - subbegin);
+                lblStatus.Text = "Confirm reset!";
+            }
+
+            if ((message.Contains(">ACKN")) && message.EndsWith(";"))
+            {
+                subbegin = message.IndexOf(">") + 5;
+                subend = message.IndexOf(";");
+                substring = message.Substring(subbegin, subend - subbegin);
+                lblStatus.Text = "";
+            }
+
         }
 
         private bool SendMessage(String message)
@@ -173,6 +190,10 @@ namespace MusicGameServer
         {
             lblScore.Text = "Score: ";
             SendMessage(messageBeginMarker + "RSTC" + messageEndMarker);
+
+            System.Threading.Thread.Sleep(1000);
+
+            SendMessage(messageBeginMarker + "DERP" + messageEndMarker);
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -228,11 +249,7 @@ namespace MusicGameServer
 
             btnStart.Enabled = isConnected;
             btnReset.Enabled = isConnected;
-            btnGameOver.Enabled = isConnected;
             btnStart.Enabled = isConnected;
-            btnCreateSong.Enabled = isConnected;
-            setSelectSong.Enabled = isConnected;
-            comboBoxMusic.Enabled = isConnected;
         }
     }
 }
