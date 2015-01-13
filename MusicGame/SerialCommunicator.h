@@ -49,14 +49,19 @@ private:
 	void BuildMessage(char *output, int outputsize, char *command, char *data);
 
 	MessageState ToCommandBuffer(char received);
+
+	void CommandToString(Command input, char *output);
 public:
 	SerialCommunicator();
 	SerialCommunicator(Stream &serial);
 	void Receive(void);
 	void Send(void);
 	Command Parse(void);
+
 	void PrintFreeMemory(int interval);
 	void WriteButtonState(int identifier, bool status);
+	void RequestReset(void);
+	void SendGameOver(int score);
 
 	int GetLastCommand(void);
 	bool GetLastData(char *output);

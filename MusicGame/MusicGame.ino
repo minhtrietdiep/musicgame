@@ -135,21 +135,22 @@ void loop()
 		}
 	}
 
-	if (Buttons[1].JustPressed && GameState == 0)
+	if (Buttons[1].JustPressed &&
+		GameState == 0)
 	{
 		StartGame();
 		PlaySongTemp();
 	}
 
-	if (Buttons[1].JustPressed && GameState == 2)
+	if (Buttons[1].JustPressed &&
+		GameState == 2)
 	{
 		ResetGame();
 	}
 
 	if (Buttons[2].JustPressed) 
 	{
-		//SComm.RequestReset();
-		Serial.println(">RRES;");
+		SComm.RequestReset();
 	}
 
 	if (SComm.Parse() == ResetCommand) 
@@ -157,7 +158,8 @@ void loop()
 		ResetGame();
 	}
 
-	if (Buttons[0].IsPressed && GameState == 1)
+	if (Buttons[0].IsPressed &&
+		GameState == 1)
 	{
 		NewTone(buzzerPin, SliderValues[0]);
 	}
@@ -166,19 +168,19 @@ void loop()
 		noNewTone(buzzerPin);
 	}
 
-	if (Buttons[0].JustReleased && GameState == 1)
+	if (Buttons[0].JustReleased &&
+		GameState == 1)
 	{		
-		CalculateScore(SliderValues[0],  melody[ToneCounter]);
+		CalculateScore(
+			SliderValues[0],
+			melody[ToneCounter]);
 		Set7Seg(0, Score);
 		ToneCounter++;
 	}
-
-	//if (ToneCounter >= sizeof(CurrentMusicFile)) {
-	if (ToneCounter >= (sizeof(melody) / sizeof(melody[0]))) {
+	if (ToneCounter >= (sizeof(melody) / sizeof(*melody)))
+	{
 		GameState = 2;
-		Serial.print(">SCOR");
-		Serial.print(Score, DEC);
-		Serial.println(";");
+		SComm.SendGameOver(Score);
 	}
 	
 #	ifdef DEBUG

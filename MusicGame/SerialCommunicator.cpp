@@ -209,12 +209,25 @@ void SerialCommunicator::WriteButtonState(int identifier, bool status)
 void SerialCommunicator::RequestReset(void)
 {
 	char cmd[5];
-	strcpy(cmd, "REQR");
+	strcpy(cmd, "RSTC");
 
 	char dat[1];
-	dat[0 ]= '\0';
+	dat[0]= '\0';
 
 	char msg[16];
-	BuildMessage(msg, 8, cmd, dat);
+	BuildMessage(msg, 16, cmd, dat);
+	AddToQueue(msg);
+}
+
+void SerialCommunicator::SendGameOver(int score)
+{
+	char cmd[5];
+	strcpy(cmd, "GOVR");
+
+	char dat[4];
+	snprintf(dat, 4, "%ld", score);
+
+	char msg[16];
+	BuildMessage(msg, 16, cmd, dat);
 	AddToQueue(msg);
 }
