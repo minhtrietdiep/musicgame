@@ -1,4 +1,4 @@
-#include "NewTone/NewTone.h"
+#include "NewTone.h"
 #include "SerialCommunicator.h"
 #include "MusicListBuilder.h"
 #include "ButtonDebouncer.h"
