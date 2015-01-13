@@ -44,7 +44,10 @@ namespace MusicGameServer
 
         private void MessageReceived(String message)
         {
-            if ((message.Contains(">BTN")) && message.EndsWith(";"))
+            int subbegin;
+            int subend;
+            string substring;
+            /*if ((message.Contains(">BTN")) && message.EndsWith(";"))
             {
                 if ((message.Substring(message.IndexOf("N") + 1, message.IndexOf(";") - (message.IndexOf("N") + 1))) == "10")
                 {
@@ -55,6 +58,13 @@ namespace MusicGameServer
                     lblStatus.Text = "pressed";
                 }
                 //MessageBox.Show("Je hebt knop " + message.Substring(message.IndexOf("N") + 1, message.IndexOf(";") - (message.IndexOf("N") + 1)) + " ingedrukt.");
+            }*/
+            if ((message.Contains(">SCOR")) && message.EndsWith(";"))
+            {
+                subbegin = message.IndexOf(">") + 5;
+                subend = message.IndexOf(";");
+                substring = message.Substring(subbegin, subend - subbegin);
+                lblScore.Text = "Score: " + substring + "!";
             }
         }
 
@@ -161,6 +171,7 @@ namespace MusicGameServer
 
         private void btnReset_Click(object sender, EventArgs e)
         {
+            lblScore.Text = "Score: ";
             SendMessage(messageBeginMarker + "RSTC" + messageEndMarker);
         }
 

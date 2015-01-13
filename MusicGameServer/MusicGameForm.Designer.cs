@@ -42,6 +42,7 @@
             this.btnRefresh = new System.Windows.Forms.Button();
             this.tbCurrentMsg = new System.Windows.Forms.TextBox();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.lblScore = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // readMessageTimer
@@ -68,7 +69,7 @@
             // 
             // btnCreateSong
             // 
-            this.btnCreateSong.Location = new System.Drawing.Point(197, 39);
+            this.btnCreateSong.Location = new System.Drawing.Point(92, 39);
             this.btnCreateSong.Name = "btnCreateSong";
             this.btnCreateSong.Size = new System.Drawing.Size(75, 23);
             this.btnCreateSong.TabIndex = 2;
@@ -78,7 +79,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(197, 68);
+            this.btnReset.Location = new System.Drawing.Point(92, 68);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 3;
@@ -136,7 +137,7 @@
             // 
             // tbCurrentMsg
             // 
-            this.tbCurrentMsg.Location = new System.Drawing.Point(172, 132);
+            this.tbCurrentMsg.Location = new System.Drawing.Point(390, 199);
             this.tbCurrentMsg.Name = "tbCurrentMsg";
             this.tbCurrentMsg.Size = new System.Drawing.Size(100, 20);
             this.tbCurrentMsg.TabIndex = 9;
@@ -144,18 +145,28 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(172, 159);
+            this.lblStatus.Location = new System.Drawing.Point(387, 222);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(35, 13);
+            this.lblStatus.Size = new System.Drawing.Size(55, 13);
             this.lblStatus.TabIndex = 10;
-            this.lblStatus.Text = "label1";
+            this.lblStatus.Text = "Messages";
+            // 
+            // lblScore
+            // 
+            this.lblScore.AutoSize = true;
+            this.lblScore.Location = new System.Drawing.Point(13, 127);
+            this.lblScore.Name = "lblScore";
+            this.lblScore.Size = new System.Drawing.Size(41, 13);
+            this.lblScore.TabIndex = 11;
+            this.lblScore.Text = "Score: ";
             // 
             // MusicGameForm
             // 
             this.AcceptButton = this.btnConnect;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(502, 261);
+            this.Controls.Add(this.lblScore);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.tbCurrentMsg);
             this.Controls.Add(this.btnRefresh);
@@ -190,6 +201,7 @@
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.TextBox tbCurrentMsg;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Label lblScore;
     }
 }
 
