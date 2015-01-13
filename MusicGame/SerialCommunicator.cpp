@@ -103,6 +103,7 @@ Command SerialCommunicator::Parse(void)
 
 int SerialCommunicator::GetLastCommand(void)
 {
+	Command temp;
 	if (CurrentState == EndOfMessage)
 	{
 		return LastCommand;
@@ -218,9 +219,10 @@ void SerialCommunicator::SendGameOver(int score)
 	char cmd[] = "GOVR";
 
 	char dat[10];
-	snprintf(dat, 10, "%ld", score);
+	snprintf(dat, 10, "%d", score);
 
 	char msg[20];
 	BuildMessage(msg, 20, cmd, dat);
+	Serial.print(msg);
 	AddToQueue(msg);
 }
