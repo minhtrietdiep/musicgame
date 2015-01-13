@@ -9,6 +9,117 @@ SerialCommunicator::SerialCommunicator(Stream &serial)
 {
 	SerialCom = &serial;
 	MemoryLastTime = millis();
+	CommandBuffer[COMMAND_SIZE] = '\0';
+}
+
+void SerialCommunicator::Receive(void)
+{
+	while (SerialCom->available())
+	{
+		size_t bytesAvailable = min(SerialCom->available(), MAX_BUFFER_SIZE);
+		SerialCom->readBytes(Buffer, bytesAvailable);
+
+		for (size_t byteNo = 0; byteNo < bytesAvailable; byteNo++)
+		{
+			MessageState msgState = ToCommandBuffer(Buffer[byteNo]);
+
+			if (msgState == EndOfMessage)
+			{
+				LastCommand = Parse();
+				char Ack[] = ">ACKN;";
+				AddToQueue(Ack);
+			}
+		}
+	}
+}
+
+MessageState SerialCommunicator::ToCommandBuffer(char received)
+{
+	CurrentState = ProcessingMessage;
+
+	if (received == StartChar)
+	{
+		CommandBufferIndex = 0;
+		for (int i = 0; i < COMMAND_SIZE - 1; i++)
+		{
+			CommandBuffer[i] = NULL;
+		}
+
+		CommandDataIndex = 0;
+		for (int i = 0; i < (MAX_BUFFER_SIZE - COMMAND_SIZE); i++)
+		{
+			LastCommandData[i] = NULL;
+		}
+	}
+	else if (received == TermChar)
+	{
+		CommandBuffer[CommandBufferIndex] = '\0';
+		if (CommandBufferIndex > 0)
+		{
+			CurrentState = EndOfMessage;
+		}
+	}
+	else if (CommandBufferIndex < 4)
+	{
+		CommandBuffer[CommandBufferIndex] = received;
+		CommandBufferIndex++;
+	}
+	else
+	{
+		LastCommandData[CommandDataIndex] = received;
+		CommandDataIndex++;
+	}
+
+	return CurrentState;
+}
+
+Command SerialCommunicator::Parse(void)
+{
+	Command returnCommand = UnknownCommand;
+
+	if (strcmp(CommandBuffer, "SLTS") == 0)
+	{
+		returnCommand = SelectSongCommand;
+	}
+	else if (strcmp(CommandBuffer, "CRTS") == 0)
+	{
+		returnCommand = CreateSongCommand;
+	}
+	else if (strcmp(CommandBuffer, "RSTC") == 0)
+	{
+		returnCommand = ResetCommand;
+	}
+	else if (strcmp(CommandBuffer, "STRT") == 0)
+	{
+		returnCommand = StartCommand;
+	}
+	else if (strcmp(CommandBuffer, "GOVR") == 0)
+	{
+		returnCommand = GameOverCommand;
+	}
+
+	return returnCommand;
+}
+
+int SerialCommunicator::GetLastCommand(void)
+{
+	if (CurrentState == EndOfMessage)
+	{
+		return LastCommand;
+	}
+
+	return -1;
+}
+
+bool SerialCommunicator::GetLastData(char *output)
+{
+	if (CurrentState == EndOfMessage)
+	{
+		output = LastCommandData;
+		return true;
+	}
+
+	return false;
 }
 
 void SerialCommunicator::AddToQueue(char *message)
@@ -28,106 +139,25 @@ void SerialCommunicator::BuildMessage(char *output, int outputsize, char *comman
 	output[0] = StartChar;
 	output[1] = '\0';
 
-	strcat(output, command);	
+	strcat(output, command);
 	strcat(output, data);
 
 	char end[] = { TermChar, '\0' };
 	strcat(output, end);
 }
 
-void SerialCommunicator::DissectMessage(String &input, char *command, char *data)
-{
-	int start = input.indexOf(StartChar);
-	if (start == -1);
-	{
-		return;
-	}
-	//Serial.println(start);
-
-	int end = input.indexOf(TermChar);
-	//Serial.println(end);
-	if (end == -1)
-	{
-		return;
-	}
-
-	/*
-	Serial.println("Test");
-
-	for (int i = start + 1; i < start + 5; i++)
-	{
-		command[i - ( start + 1 )] = input[i];
-	}
-
-	for (int i = start + 4; i < end; i++)
-	{
-		data[i - start + 5] = input[i];
-	}
-	Serial.println(command);
-	*/
-	
-}
-
-void SerialCommunicator::Receive(void)
-{
-	while (SerialCom->available())
-	{
-		size_t bytesAvailable = min(SerialCom->available(), MAX_BUFFER_SIZE);
-		SerialCom->readBytes(Buffer, bytesAvailable);
-	}
-
-	Serial.println(Buffer);
-	//BufferString = String(Buffer);
-	//Serial.println(BufferString);
-}
-
 void SerialCommunicator::Send(void)
 {
 	if (NewQueue)
 	{
-		Serial.println(Queue);
+		Serial.print(Queue);
+
 		for (int i = 0; i < strlen(Queue); i++)
 		{
 			Queue[i] = NULL;
 		}
 		NewQueue = false;
 	}
-}
-
-Command SerialCommunicator::Parse(void)
-{
-	char command[7];
-	char data[5];
-	//DissectMessage(BufferString, command, data);
-
-	/* Arduino Crash because: MAX_BUFFER_SIZE > CommandData length
-	for (int i = 4; i < MAX_BUFFER_SIZE; i++)
-	{
-		CommandData[i] = Buffer[i];
-	}*/
-
-	if (strcmp(command, "SLTS"))
-	{
-		return SelectSongCommand;
-	}
-	else if (strcmp(command, "CRTS"))
-	{
-		return CreateSongCommand;
-	}
-	else if (strcmp(command, "RSTC"))
-	{
-		return ResetCommand;
-	}
-	else if (strcmp(command, ">STRT;"))
-	{
-		return StartCommand;
-	}
-	else if (strcmp(command, "GOVR"))
-	{
-		return GameOverCommand;
-	}
-	
-	return UnknownCommand;
 }
 
 void SerialCommunicator::PrintFreeMemory(int interval)

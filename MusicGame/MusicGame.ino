@@ -66,9 +66,13 @@ void loop()
 {
 	SComm.Receive();
 
-	if (SComm.Parse() == StartCommand) {
+	if (SComm.GetLastCommand() == StartCommand)
+	{
 		knipper = true;
-		SComm.WriteButtonState(1, true);
+	}
+	else if (SComm.GetLastCommand() == ResetCommand)
+	{
+		knipper = false;
 	}
 
 	if (knipper) 
@@ -77,7 +81,7 @@ void loop()
 	}
 
 #ifdef DEBUG
-	// SComm.PrintFreeMemory(2000);
+	//SComm.PrintFreeMemory(2000);
 #endif
 
 	SComm.Send();

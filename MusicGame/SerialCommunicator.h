@@ -6,6 +6,12 @@
 
 typedef enum
 {
+	ProcessingMessage = 1,
+	EndOfMessage = 2
+} MessageState;
+
+typedef enum
+{
 	SelectSongCommand,
 	CreateSongCommand,
 	ResetCommand,
@@ -17,16 +23,23 @@ typedef enum
 class SerialCommunicator
 {
 private:
-	static const int MAX_BUFFER_SIZE = 16;
+	static const int MAX_BUFFER_SIZE = 64;
 	static const int MAX_QUEUE_SIZE = 64;
+	static const int COMMAND_SIZE = 5;
 	static const char StartChar = '>';
 	static const char TermChar = ';';
 
 	Stream *SerialCom;
 
 	char Buffer[MAX_BUFFER_SIZE];
-	String BufferString;
-	char CommandData[MAX_BUFFER_SIZE - 4];
+	char CommandBuffer[COMMAND_SIZE];
+	int CommandBufferIndex;
+
+	Command LastCommand;
+	char LastCommandData[MAX_BUFFER_SIZE - COMMAND_SIZE];
+	int CommandDataIndex;
+	MessageState CurrentState;
+
 	char Queue[MAX_QUEUE_SIZE];
 	bool NewQueue;
 
@@ -34,7 +47,8 @@ private:
 
 	void AddToQueue(char *message);
 	void BuildMessage(char *output, int outputsize, char *command, char *data);
-	void DissectMessage(String &input, char *command, char *data);
+
+	MessageState ToCommandBuffer(char received);
 public:
 	SerialCommunicator();
 	SerialCommunicator(Stream &serial);
@@ -43,6 +57,9 @@ public:
 	Command Parse(void);
 	void PrintFreeMemory(int interval);
 	void WriteButtonState(int identifier, bool status);
+
+	int GetLastCommand(void);
+	bool GetLastData(char *output);
 };
 
 #endif
