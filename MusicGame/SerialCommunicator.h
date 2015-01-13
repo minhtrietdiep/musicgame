@@ -51,12 +51,12 @@ private:
 	MessageState ToCommandBuffer(char received);
 
 	void CommandToString(Command input, char *output);
+	Command Parse(void);
 public:
 	SerialCommunicator();
 	SerialCommunicator(Stream &serial);
 	void Receive(void);
 	void Send(void);
-	Command Parse(void);
 
 	void PrintFreeMemory(int interval);
 	void WriteButtonState(int identifier, bool status);
