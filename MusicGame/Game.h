@@ -8,14 +8,16 @@ class Game
 private:
 	MusicFile *CurrentMusicFile;
 	byte CurrentNote;
-	
+	int SelectedNote;
+	byte Score;
+
 	bool Playing;
 	bool Playable;
 public:
 	Game();
-	~Game();
 	void Start(void);
 	void Reset(void);
+	void JustReleased(int slider);
 	void SetMusicFile(MusicFile &target);
 	void PlayExample(void);
 };

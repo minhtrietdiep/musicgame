@@ -175,3 +175,16 @@ void SerialCommunicator::WriteButtonState(int identifier, bool status)
 
 	AddToQueue(msg);
 }
+
+void SerialCommunicator::RequestReset(void)
+{
+	char cmd[5];
+	strcpy(cmd, "REQR");
+
+	char dat[1];
+	dat[0 ]= '\0';
+
+	char msg[16];
+	BuildMessage(msg, 8, cmd, dat);
+	AddToQueue(msg);
+}

@@ -43,6 +43,7 @@ public:
 	Command Parse(void);
 	void PrintFreeMemory(int interval);
 	void WriteButtonState(int identifier, bool status);
+	void RequestReset(void);
 };
 
 #endif
