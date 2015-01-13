@@ -1,4 +1,4 @@
-#include "NewTone.h"
+#include "NewTone/NewTone.h"
 #include "SerialCommunicator.h"
 #include "MusicListBuilder.h"
 #include "ButtonDebouncer.h"
@@ -31,12 +31,17 @@ static const byte CLOCK = 8;
 static const byte DATA = 4;
 
 static const byte ledCharSet[16] PROGMEM = {
-
-	B00111111, B00000110, B01011011, B01001111, B01100110, B01101101, B01111101, B00000111, B01111111, B01101111, B01110111, B01111100, B01011000, B01011110, B01111001, B01110001
+	B00111111, B00000110, B01011011,
+	B01001111, B01100110, B01101101, 
+	B01111101, B00000111, B01111111, 
+	B01101111, B01110111, B01111100,
+	B01011000, B01011110, B01111001,
+	B01110001
 };
 static const byte ledIdleSet[8] PROGMEM = {
-	//B00000001, B00000010, B00000100, B00001000, B00010000, B00100000, B01000000, B10000000
-	B00000001, B00000010, B01000000, B00010000, B00001000, B00000100, B01000000, B00100000
+	B00000001, B00000010, B01000000,
+	B00010000, B00001000, B00000100, 
+	B01000000, B00100000
 };
 
 ButtonDebouncer Buttons[] =
@@ -128,16 +133,6 @@ void loop()
 		{
 			counter = 0;
 		}
-		//Test hex display
-		/*Set7Seg(0, counter);
-		if (HasIntervalPassed(lastTime, 500))
-		{
-			counter++;
-		}
-		if (counter >= 16)
-		{
-			counter = 0;
-		}*/
 	}
 
 	if (Buttons[1].JustPressed && GameState == 0)
