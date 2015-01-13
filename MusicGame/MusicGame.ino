@@ -1,4 +1,4 @@
-#include <NewTone.h>
+#include "NewTone.h"
 #include "SerialCommunicator.h"
 #include "MusicListBuilder.h"
 #include "ButtonDebouncer.h"
@@ -26,33 +26,18 @@ static const byte SliderThree = A0;
 static const byte LEDOne = 5;
 static const byte LEDTwo = 6;
 
-static const byte ledCharSet[16] = {
+static const byte LATCH = 7;
+static const byte CLOCK = 8;
+static const byte DATA = 4;
+
+static const byte ledCharSet[16] PROGMEM = {
 
 	B00111111, B00000110, B01011011, B01001111, B01100110, B01101101, B01111101, B00000111, B01111111, B01101111, B01110111, B01111100, B01011000, B01011110, B01111001, B01110001
 };
-static const byte ledIdleSet[8] = {
+static const byte ledIdleSet[8] PROGMEM = {
 	//B00000001, B00000010, B00000100, B00001000, B00010000, B00100000, B01000000, B10000000
 	B00000001, B00000010, B01000000, B00010000, B00001000, B00000100, B01000000, B00100000
 };
-
-long lastTime = 50;
-int SliderValues[3];
-int Score;
-int GameState;
-int LevelState;
-int CurrentNote;
-int ToneCounter;
-MusicFile *CurrentMusicFile;
-int counter = 0;
-bool play = false;
-
-//int melody[] = { 262, 196, 196, 220, 196, 0, 247, 262 };
-int melody[] = { 200, 400, 800 };
-
-
-#define LATCH 7
-#define CLOCK 8
-#define DATA 4
 
 ButtonDebouncer Buttons[] =
 {
@@ -73,6 +58,20 @@ LED LEDs[] =
 	LED(LEDOne),
 	LED(LEDTwo)
 };
+
+long lastTime = 50;
+int SliderValues[3];
+int Score;
+int GameState;
+int LevelState;
+int CurrentNote;
+int ToneCounter;
+MusicFile *CurrentMusicFile;
+int counter = 0;
+bool play = false;
+
+//int melody[] = { 262, 196, 196, 220, 196, 0, 247, 262 };
+int melody[] = { 200, 400, 800 };
 
 MusicFile MusicFiles[MAX_MUSIC];
 MusicListBuilder Builder;
